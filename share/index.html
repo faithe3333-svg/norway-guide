@@ -2327,7 +2327,10 @@ const SEED_DATA = {
 };
 
 (async function boot(){
-  if(location.pathname.toLowerCase().indexOf('share')!==-1){ document.body.classList.add('share-mode'); }
+  // 安全版为默认：根路径及任何不含 'edit' 的子路径均为只读分享版（隐藏云同步/备份）；
+  // 完整可编辑版仅在含 'edit' 的子路径（如 /editbyfrancine/）下显示。
+  // 这样分享根链接后，删掉任何子路径都只会落回安全根，无法靠改 URL 进完整版。
+  if(location.pathname.toLowerCase().indexOf('edit')===-1){ document.body.classList.add('share-mode'); }
   // 默认内容：内置备份作为默认；带版本号，部署版本提升时自动重载新默认，老访客刷新即见更新
   // （仅重载 SEED_DATA 管理的键，不清除本地新增的每日图片 wb_norway_dayimg_*）
   try{
